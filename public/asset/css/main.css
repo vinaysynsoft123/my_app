@@ -1,0 +1,104 @@
+/* ===== Base ===== */
+body {
+    background-color: #f4f6f9;
+    margin: 0;
+}
+
+.room-select:hover {
+    transform: translateY(-5px);
+    transition: 0.3s;
+    border: 1px solid #0d6efd;
+}
+
+
+/* ===== Header ===== */
+.navbar {
+    height: 70px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    z-index: 1030;
+}
+
+#roomsModal .modal-dialog {
+    margin-top: 50px; /* adjust distance from top */
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 250px;
+    height: calc(100vh - 70px);
+    background: #343a40;
+    overflow-y: auto;
+    transition: left 0.3s ease;
+    z-index: 1020;
+}
+
+.sidebar .nav-link {
+    color: #adb5bd;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin: 4px 10px;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    background: #495057;
+    color: #fff;
+}
+
+/* ===== Main Content ===== */
+.main-content {
+    margin-left: 250px;
+    padding: 90px 25px 25px;
+    min-height: calc(100vh - 70px);
+    transition: margin-left 0.3s ease;
+}
+
+/* ===== Footer ===== */
+.footer {
+    margin-left: 250px;
+    height: 70px;
+    background: #fff;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    transition: margin-left 0.3s ease;
+}
+
+/* ===== Toast ===== */
+.toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 1055;
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 992px) {
+    .sidebar {
+        left: -250px;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .main-content,
+    .footer {
+        margin-left: 0;
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 1010;
+    }
+
+    .overlay.active {
+        display: block;
+    }
+}
