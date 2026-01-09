@@ -53,5 +53,14 @@
             </tbody>
         </table>
     </div>
+      <!-- Pagination -->
+            <div class="d-flex justify-content-between align-items-center px-3 py-3 bg-light border-top">
+                <div class="text-muted small">
+                    Page {{ $rooms->currentPage() }} of {{ $rooms->lastPage() }}
+                </div>
+                <div>
+                    {{ $rooms->links('pagination::bootstrap-5') }}
+                </div>
+            </div>
 </div>
 @endsection

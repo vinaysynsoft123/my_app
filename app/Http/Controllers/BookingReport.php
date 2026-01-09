@@ -8,17 +8,21 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 
+
 class BookingReport extends Controller
 {
    
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-       $reports = Booking::with('room')->get();
-      return view('bookings.report', compact('reports'));
-    }
+   public function index(Request $request)
+{
+    $reports = Booking::with('room')
+        ->latest()                    
+        ->paginate(5);           
+
+    return view('bookings.report', compact('reports'));
+}
 
     /**
      * Display the specified resource.

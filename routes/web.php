@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking-calendar', [BookingController::class, 'index'])->name('bookings.calendar');
     Route::get('/booking-events', [BookingController::class, 'events'])->name('bookings.events');    
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
+    
     Route::get('/rooms-by-date/{date}', [BookingController::class, 'roomsByDate'])->name('bookings.roomsByDate');
     Route::get('booking-report', [BookingReport::class, 'index'])->name('bookings.report');
     Route::get('bookings/{booking}', [BookingReport::class, 'show'])->name('bookings.show');

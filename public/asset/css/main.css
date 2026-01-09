@@ -35,6 +35,16 @@ body {
     z-index: 1020;
 }
 
+  .pagination .page-item .page-link {
+        border-radius: 6px;
+        margin: 0 3px;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+
 .sidebar .nav-link {
     color: #adb5bd;
     padding: 12px 20px;
