@@ -1,45 +1,215 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <title>Booking Invoice</title>
+
     <style>
-        body { font-family: DejaVu Sans, sans-serif; }
-        h2 { margin-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; }
-        td { padding: 8px; border-bottom: 1px solid #ddd; }
+        body {
+            font-family: DejaVu Sans, sans-serif;
+            font-size: 12px;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header {
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .hotel-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .invoice-title {
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .sub-text {
+            color: #777;
+            font-size: 11px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f5f5f5;
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .total-box {
+            margin-top: 15px;
+            width: 40%;
+            float: right;
+        }
+
+        .total-box td {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .badge {
+            padding: 4px 8px;
+            font-size: 11px;
+            color: #fff;
+            border-radius: 4px;
+        }
+
+        .badge-success { background: #28a745; }
+        .badge-warning { background: #f0ad4e; }
+        .badge-danger  { background: #dc3545; }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 10px;
+            color: #999;
+        }
     </style>
 </head>
+
 <body>
 
-<h2>Booking Details</h2>
+    <!-- HEADER -->
+    <div class="header">
+        <table width="100%">
+            <tr>
+                <td>
+                    <div class="hotel-name">{{ $setting->name }}</div>
+                    <div class="sub-text">
+                       {{ $setting->address  }},    {{ $setting->city  }} <br>
+                        Phone: {{ $setting->mobile }}<br>
+                        Email: {{ $setting->email  }}
+                    </div>
+                </td>
+                <td class="invoice-title">
+                    INVOICE<br>
+                    <span class="sub-text">
+                        Booking #{{ $booking->booking_number }}
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </div>
 
-<table>
-    <tr>
-        <td><strong>Guest</strong></td>
-        <td>{{ $booking->guest_name }}</td>
-    </tr>
-    <tr>
-        <td><strong>Room</strong></td>
-        <td>{{ $booking->room->room_number ?? 'N/A' }}</td>
-    </tr>
-    <tr>
-        <td><strong>Check-in</strong></td>
-        <td>{{ $booking->check_in }}</td>
-    </tr>
-    <tr>
-        <td><strong>Check-out</strong></td>
-        <td>{{ $booking->check_out }}</td>
-    </tr>
-    <tr>
-        <td><strong>Status</strong></td>
-        <td>
-            {{ $booking->status == 1 ? 'Confirmed' : ($booking->status == 0 ? 'Pending' : 'Cancelled') }}
-        </td>
-    </tr>
-    <tr>
-        <td><strong>Total</strong></td>
-        <td>₹ {{ number_format($booking->total_amount, 2) }}</td>
-    </tr>
-</table>
+    <!-- GUEST & BOOKING INFO -->
+    <div class="section">
+        <table>
+            <tr>
+                <th width="25%">Guest Name</th>
+                <td width="25%">{{ $booking->guest_name }}</td>
+
+                <th width="25%">Room No</th>
+                <td width="25%">{{ $booking->room->room_number ?? 'N/A' }}</td>
+            </tr>
+
+            <tr>
+                <th>Email</th>
+                <td>{{ $booking->email }}</td>
+
+                <th>Phone</th>
+                <td>{{ $booking->phone }}</td>
+            </tr>
+
+            <tr>
+                <th>Check-in</th>
+                <td>{{ \Carbon\Carbon::parse($booking->check_in)->format('d M Y') }}</td>
+
+                <th>Check-out</th>
+                <td>{{ \Carbon\Carbon::parse($booking->check_out)->format('d M Y') }}</td>
+            </tr>
+
+            <tr>
+                <th>Status</th>
+                <td colspan="3">
+                    @php
+                        $statusText = match($booking->status) {
+                            1 => 'Confirmed',
+                            0 => 'Pending',
+                            default => 'Cancelled',
+                        };
+
+                        $statusClass = match($booking->status) {
+                            1 => 'badge-success',
+                            0 => 'badge-warning',
+                            default => 'badge-danger',
+                        };
+                    @endphp
+
+                    <span class="badge {{ $statusClass }}">
+                        {{ $statusText }}
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- BILLING DETAILS -->
+    <div class="section">
+        <table>
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th class="text-right">Amount (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Room Charges
+                        <br>
+                        <span class="sub-text">
+                            {{ \Carbon\Carbon::parse($booking->check_in)->diffInDays($booking->check_out) }} Nights
+                        </span>
+                    </td>
+                    <td class="text-right">
+                        {{ number_format($booking->total_amount, 2) }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- TOTAL -->
+        <table class="total-box">
+            <tr>
+                <td>Total Amount</td>
+                <td class="text-right">₹ {{ number_format($booking->total_amount, 2) }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        Thank you for choosing {{ $setting->name }}.<br>
+        This is a system-generated invoice.
+    </div>
 
 </body>
 </html>

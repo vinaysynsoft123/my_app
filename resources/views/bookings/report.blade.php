@@ -1,10 +1,42 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="mb-0">Booking Report</h4>      
+        <h4 class="mb-0">Booking Report</h4>
     </div>
+    <form method="GET" action="{{ route('bookings.reports') }}" class="row g-2 mb-3">
+        <div class="col-md-4">
+            <input type="text" name="search" class="form-control" placeholder="Search name / phone / booking ID"
+                value="{{ request('search') }}">
+        </div>
+
+        <div class="col-md-2">
+            <select name="status" class="form-select">
+                <option value="">All Status</option>
+                <option value="1" @selected(request('status') == '1')>Confirmed</option>
+                <option value="0" @selected(request('status') == '0')>Pending</option>
+                <option value="2" @selected(request('status') == '2')>Cancelled</option>
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <select name="sort" class="form-select">
+                <option value="latest" @selected(request('sort') == 'latest')>Latest</option>
+                <option value="oldest" @selected(request('sort') == 'oldest')>Oldest</option>
+                <option value="check_in" @selected(request('sort') == 'check_in')>Check-in Date</option>
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <button class="btn btn-primary w-100">Filter</button>
+        </div>
+
+        <div class="col-md-2">
+            <a href="{{ route('bookings.report') }}" class="btn btn-secondary w-100">
+                Reset
+            </a>
+        </div>
+    </form>
 
     <div class="card shadow-sm border-0">
         <div class="card-body p-0">
@@ -13,9 +45,11 @@
                     <thead class="table-light">
                         <tr>
                             <th>Sr No</th>
+                            <th>Booking ID</th>
                             <th>Guest Name</th>
                             <th>Phone</th>
                             <th>Room</th>
+                            <th>Tariff</th>
                             <th>Check-in</th>
                             <th>Check-out</th>
                             <th>Adults</th>
@@ -27,14 +61,18 @@
                         @forelse($reports as $booking)
                             <tr>
                                 <td>{{ $loop->iteration + ($reports->currentPage() - 1) * $reports->perPage() }}</td>
+                                <td>{{ $booking->booking_number ?? '—' }}</td>
                                 <td>{{ $booking->guest_name ?? '—' }}</td>
                                 <td>{{ $booking->phone ?? '—' }}</td>
                                 <td>{{ $booking->room->room_number ?? 'N/A' }}</td>
-                                <td>{{ $booking->check_in ? \Carbon\Carbon::parse($booking->check_in)->format('d M Y') : '—' }}</td>
-                                <td>{{ $booking->check_out ? \Carbon\Carbon::parse($booking->check_out)->format('d M Y') : '—' }}</td>
+                                <td>{{ $booking->total_amount ?? 'N/A' }}</td>
+                                <td>{{ $booking->check_in ? \Carbon\Carbon::parse($booking->check_in)->format('d M Y') : '—' }}
+                                </td>
+                                <td>{{ $booking->check_out ? \Carbon\Carbon::parse($booking->check_out)->format('d M Y') : '—' }}
+                                </td>
                                 <td class="text-center">{{ $booking->adults ?? '—' }}</td>
                                 <td>
-                                    @if($booking->status == 1)
+                                    @if ($booking->status == 1)
                                         <span class="badge bg-success px-3 py-2">Confirmed</span>
                                     @elseif($booking->status == 0)
                                         <span class="badge bg-warning text-dark px-3 py-2">Pending</span>
@@ -45,8 +83,8 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('bookings.show', $booking->id) }}" 
-                                       class="btn btn-sm btn-primary px-3">
+                                    <a href="{{ route('bookings.show', $booking->id) }}"
+                                        class="btn btn-sm btn-primary px-3">
                                         View
                                     </a>
                                 </td>
@@ -74,7 +112,4 @@
             </div>
         </div>
     </div>
-</div>
-
-
 @endsection

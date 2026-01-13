@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('guest')->group(function () {
     Route::get('/login',    [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login',   [AuthController::class, 'login']);
-
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register',[AuthController::class, 'register']);
 });
@@ -21,6 +20,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout',   [AuthController::class, 'logout'])->name('logout');
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
     Route::patch('/settings', [SettingsController::class, 'update'])->name('settings.update');
+    Route::get('/admin/profile', [SettingsController::class, 'edit'])->name('admin.profile');
+    Route::patch('/admin/profile', [SettingsController::class, 'update_profile'])->name('admin.profile.update');
+
     Route::get('rooms', [RoomController::class, 'index'])->name('rooms.index');
     Route::get('rooms/create', [RoomController::class, 'create'])->name('rooms.create');
     Route::post('rooms', [RoomController::class, 'store'])->name('rooms.store');
@@ -34,7 +36,10 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/rooms-by-date/{date}', [BookingController::class, 'roomsByDate'])->name('bookings.roomsByDate');
     Route::get('booking-report', [BookingReport::class, 'index'])->name('bookings.report');
+    Route::get('booking-reports', [BookingReport::class, 'report'])->name('bookings.reports');
     Route::get('bookings/{booking}', [BookingReport::class, 'show'])->name('bookings.show');
+    
+    Route::get('bookings/{booking}/download', [BookingReport::class, 'print'])->name('bookings.download');
 
     Route::get('bookings/{booking}/download', [BookingReport::class, 'download'])->name('bookings.download');
     Route::post('bookings/{booking}/send-mail', [BookingReport::class, 'sendMail'])->name('bookings.sendMail');

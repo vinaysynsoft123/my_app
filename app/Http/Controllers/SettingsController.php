@@ -43,4 +43,34 @@ class SettingsController extends Controller
         return redirect()->route('settings')
             ->with('success', 'Settings updated successfully!');
     }
+
+    public function edit()
+    {
+        $user = auth()->user();
+        return view('profile', compact('user'));
+    }
+
+    public function update_profile(Request $request)
+    {
+        $user = auth()->user();
+
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',          
+            'password' => 'nullable|confirmed|min:8',           
+        ]);
+
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        } else {
+            unset($data['password']);
+        }
+     
+        $user->update($data);
+
+     
+        return back()->with('success', 'Profile updated successfully.');
+    }
+
+    
 }

@@ -17,7 +17,7 @@
                     <img src="https://i.pinimg.com/736x/3f/94/70/3f9470b34a8e3f526dbdb022f9f19cf7.jpg" alt="Profile" class="rounded-circle" width="40">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end shadow">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="{{ route('admin.profile') }}">Profile</a></li>
                     <li><a class="dropdown-item" href="{{ route('settings') }}">Settings</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>

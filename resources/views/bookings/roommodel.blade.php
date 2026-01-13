@@ -1,6 +1,6 @@
 
 <div class="modal fade" id="roomsModal" tabindex="-1">
-    
+    <div id="roomsWrapper">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -14,4 +14,5 @@
             </div>
         </div>
     </div>
+</div>    
 </div>

@@ -30,7 +30,7 @@ class DashboardService
         ];
     }
 
-    public function recentBookings(int $limit = 5)
+    public function recentBookings(int $limit = 10)
     {
         return Booking::with('room')
             ->latest()

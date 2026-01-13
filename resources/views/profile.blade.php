@@ -1,0 +1,75 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container-fluid py-4">
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="h4 mb-0">My Profile</h2>
+        </div>
+    </div>
+
+    <form action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PATCH')
+
+        <div class="row">
+
+            <!-- Name -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">Full Name</label>
+                <input type="text"
+                       name="name"
+                       class="form-control"
+                       value="{{ auth()->user()->name }}"
+                       required>
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">Email Address</label>
+                <input type="email"
+                       name="email"
+                       class="form-control"
+                       value="{{ auth()->user()->email }}" readonly disabled
+                       required>
+            </div>           
+
+        
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">New Password</label>
+                <input type="password"
+                       name="password"
+                       class="form-control"
+                       placeholder="Leave blank to keep current">
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <label class="form-label fw-semibold">Confirm Password</label>
+                <input type="password"
+                       name="password_confirmation"
+                       class="form-control"
+                       placeholder="Confirm new password">
+            </div>
+          
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary px-5">
+                    Update Profile
+                </button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<!-- Image Preview Script -->
+<script>
+    function previewAvatar(event) {
+        const reader = new FileReader();
+        reader.onload = function () {
+            document.getElementById('avatarPreview').src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+@endsection

@@ -17,6 +17,7 @@
                     <th>Room No</th>
                     <th>Type</th>
                     <th>Price</th>
+                    <th>Capacity</th>
                     <th>Status</th>
                     <th width="150">Action</th>
                 </tr>
@@ -28,6 +29,7 @@
                     <td>{{ $room->room_number }}</td>
                     <td>{{ $room->type }}</td>
                     <td>₹{{ $room->price }}</td>
+                    <td>{{ $room->capacity }}</td>
                     <td>
                         @if ($room->status == 1)
                             <span class="badge bg-success">Active</span>

@@ -25,6 +25,11 @@ class Booking extends Model
         'status',
         'cancellation_reason',
         'booking_number',
+        'advance',
+        'payment_mode',
+        'receptionist_name',
+        'payment_person',
+
     ];
 
     public function room()

@@ -15,9 +15,8 @@
     </span>
 </div>
 
-{{-- KPI Cards --}}
 <div class="row g-4 mb-4">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card shadow-sm border-0">
             <div class="card-body d-flex justify-content-between">
                 <div>
@@ -32,7 +31,7 @@
         </div>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card shadow-sm border-0">
             <div class="card-body d-flex justify-content-between">
                 <div>
@@ -47,7 +46,7 @@
         </div>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card shadow-sm border-0">
             <div class="card-body d-flex justify-content-between">
                 <div>
@@ -62,7 +61,7 @@
         </div>
     </div>
 
-    <div class="col-md-3">
+    {{-- <div class="col-md-3">
         <div class="card shadow-sm border-0">
             <div class="card-body d-flex justify-content-between">
                 <div>
@@ -77,7 +76,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
 
 {{-- Bookings & Actions --}}
@@ -95,26 +94,34 @@
                 <table class="table table-hover mb-0">
                     <thead class="table-light">
                         <tr>
-                            <th>Guest</th>
+                            <th>Sr. No</th>
+                            <th>Guest Name/ Company</th>
                             <th>Room</th>
                             <th>Check-in</th>
                             <th>Status</th>
+                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($reports as $report)
                         <tr>
-                    <th>{{ $report->guest_name }}</th>
-                    <td>{{ $report->room->room_number  }}</td>
-                    <td>{{ $report->check_in }}</td>
-                    <td>
-                                                    @if($report->status == 1)
+                            <th>{{ $loop->iteration }}</th>
+                            <th>{{ $report->guest_name }}</th>
+                            <td>{{ $report->room->room_number  }}</td>
+                            <td>{{ $report->check_in }}</td>
+                            <td>
+                                @if($report->status == 1)
                                     <span class="badge bg-success">Confirmed</span>
                                 @elseif($report->status == 0)
                                     <span class="badge bg-warning text-dark">Pending</span>
                                 @elseif($report->status == 2)
                                     <span class="badge bg-danger">Cancelled</span>
                                 @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('bookings.show', $report->id) }}" class="btn btn-sm btn-outline-secondary">
+                                    View
+                                </a>
                             </td>
                         </tr>
                         @endforeach
