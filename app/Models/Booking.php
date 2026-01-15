@@ -41,4 +41,9 @@ class Booking extends Model
     {
         return $this->belongsTo(User::class, 'booked_by');
     }
+    public function scopeConfirmed($query)
+{
+    return $query->where('status', 1);
+}
+
 }

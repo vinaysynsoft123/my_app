@@ -42,14 +42,15 @@ class BookingController extends Controller
 
 
 
-    public function roomsByDate($date)
+   public function roomsByDate($date)
     {
         $date = Carbon::parse($date);
 
         $rooms = Room::all();
 
-        $bookedRoomIds = Booking::whereDate('check_in', '<=', $date)
-            ->whereDate('check_out', '>=', $date)
+        $bookedRoomIds = Booking::where('status', '!=', 2) // not cancelled
+            ->whereDate('check_in', '<=', $date)
+            ->whereDate('check_out', '>', $date)
             ->pluck('room_id')
             ->toArray();
 
@@ -64,6 +65,7 @@ class BookingController extends Controller
             })
         );
     }
+
 public function store(Request $request)
 {
     $request->validate([
@@ -87,7 +89,7 @@ public function store(Request $request)
     Booking::create([
         'room_id' => $request->room_id,
         'check_in' => $request->check_in,
-        'check_out' => $request->check_in, 
+        'check_out' => $request->check_out, 
         'guest_name' => $request->guest_name,
         'email' => $request->guest_email,
         'phone' => $request->phone,

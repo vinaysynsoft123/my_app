@@ -96,14 +96,20 @@
                             <label class="form-label">
                                 <i class="bi bi-cash-coin me-1"></i> Advance Payment
                             </label>
-                            <input type="text" name="advance" class="form-control rounded-3" required>
+                            <input type="number" name="advance" class="form-control rounded-3" required>
                         </div>
 
                         <div class="col-md-3">
                             <label class="form-label">
                                 <i class="bi bi-credit-card me-1"></i> Payment Mode
                             </label>
-                            <input type="text" name="payment_mode" class="form-control rounded-3" required>
+                           <select name="payment_mode" class="form-select rounded-3" required>
+                                <option value="">Select Payment Mode</option>
+                                <option value="Cash">Cash</option>
+                                <option value="UPI">UPI</option>
+                                <option value="NEFT">NEFT</option>
+                                <option value="Other">Other</option>
+                            </select>
                         </div>
 
                         <div class="col-md-4">
@@ -124,7 +130,7 @@
                             <label class="form-label">
                                 <i class="bi bi-cash-coin me-1"></i> Tariff
                             </label>
-                            <input type="text" name="total_amount" class="form-control rounded-3" required>
+                            <input type="number" name="total_amount" class="form-control rounded-3" required>
                         </div>
 
                         <!-- Notes -->
