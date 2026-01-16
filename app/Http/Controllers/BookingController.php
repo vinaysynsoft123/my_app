@@ -6,6 +6,8 @@ use App\Models\Booking;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Mail\BookingConfirmed;
+use Illuminate\Support\Facades\Mail;
 
 
 class BookingController extends Controller
@@ -86,7 +88,7 @@ public function store(Request $request)
 
     ]);
 
-    Booking::create([
+      $booking = Booking::create([
         'room_id' => $request->room_id,
         'check_in' => $request->check_in,
         'check_out' => $request->check_out, 
@@ -105,6 +107,12 @@ public function store(Request $request)
         'booked_by' => auth()->id(),
 
     ]);
+
+    // ✅ Send Email (only if email exists)
+    if ($booking->email) {
+        Mail::to($booking->email)->send(new BookingConfirmed($booking));
+    }
+
 
     return response()->json(['success' => true]);
 }
