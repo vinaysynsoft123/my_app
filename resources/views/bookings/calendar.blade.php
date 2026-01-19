@@ -54,33 +54,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
     calendar.render();
 
-    function loadRooms(date) {
-        roomsList.innerHTML = '<div class="text-center">Loading...</div>';
+function loadRooms(date) {
+    roomsList.innerHTML = '<div class="text-center">Loading...</div>';
 
-        fetch(`/rooms-by-date/${date}`)
-            .then(res => res.json())
-            .then(data => {
-                roomsList.innerHTML = '';
+    fetch(`/rooms-by-date/${date}`)
+        .then(res => res.json())
+        .then(data => {
+            roomsList.innerHTML = '';
 
-                data.forEach(room => {
-                    roomsList.innerHTML += `
-                    <div class="col-lg-2 col-md-3 col-sm-4 mb-3">
-                        <div class="card shadow-sm text-center
-                            ${room.booked ? 'opacity-75' : 'room-select'}"
-                            style="cursor:${room.booked ? 'not-allowed' : 'pointer'}"
-                            ${room.booked ? '' : `onclick="selectRoom(${room.id}, '${date}', '${room.room_number}')"`}>
-                            <div class="card-body p-2">
-                                <h6>${room.room_number}</h6>
-                                <small>${room.type}</small>
-                                <span class="badge ${room.booked ? 'bg-danger' : 'bg-success'} w-100 mt-2">
-                                    ${room.booked ? 'Booked' : 'Available'}
-                                </span>
-                            </div>
+            data.forEach(room => {
+                const guestName = room.guest_name ?? 'Customer';
+
+                roomsList.innerHTML += `
+                <div class="col-lg-2 col-md-3 col-sm-4 mb-3">
+                    <div class="card shadow-sm text-center
+                        ${room.booked ? 'opacity-75' : 'room-select'}"
+                        style="cursor:${room.booked ? 'not-allowed' : 'pointer'}"
+                        ${room.booked ? '' : `onclick="selectRoom(${room.id}, '${date}', '${room.room_number}')"`}>
+
+                        <div class="card-body p-2">
+                            <h6 class="mb-1">${room.room_number}</h6>
+                            <small class="text-muted">${room.type}</small>
+                            <span class="badge ${room.booked ? 'bg-danger booked-badge' : 'bg-success'} w-100 mt-2"
+                                ${room.booked ? `title="${guestName}"` : ''}>
+                                ${room.booked ? 'Booked' : 'Available'}
+                            </span>
                         </div>
-                    </div>`;
-                });
+                    </div>
+                </div>`;
             });
-    }
+        });
+}
+
 
     document.getElementById('bookingForm').addEventListener('submit', function(e) {
         e.preventDefault();

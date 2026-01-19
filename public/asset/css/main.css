@@ -65,7 +65,45 @@ body {
     min-height: calc(100vh - 70px);
     transition: margin-left 0.3s ease;
 }
+.booked-badge {
+    position: relative;
+    cursor: help;
+}
 
+.booked-badge::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #000;
+    color: #fff;
+    padding: 4px 8px;
+    font-size: 11px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.2s ease;
+    z-index: 10;
+}
+
+.booked-badge::before {
+    content: "";
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #000 transparent transparent transparent;
+    opacity: 0;
+}
+
+.booked-badge:hover::after,
+.booked-badge:hover::before {
+    opacity: 1;
+}
 /* ===== Footer ===== */
 .footer {
     margin-left: 250px;

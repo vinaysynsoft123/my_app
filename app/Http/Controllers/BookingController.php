@@ -44,29 +44,35 @@ class BookingController extends Controller
 
 
 
-   public function roomsByDate($date)
-    {
-        $date = Carbon::parse($date);
+public function roomsByDate($date)
+{
+    $date = Carbon::parse($date);
 
-        $rooms = Room::all();
+    $rooms = Room::all();
 
-        $bookedRoomIds = Booking::where('status', '!=', 2) // not cancelled
-            ->whereDate('check_in', '<=', $date)
-            ->whereDate('check_out', '>', $date)
-            ->pluck('room_id')
-            ->toArray();
+    // Get bookings for that date
+    $bookings = Booking::where('status', '!=', 2)
+        ->whereDate('check_in', '<=', $date)
+        ->whereDate('check_out', '>', $date)
+        ->get()
+        ->keyBy('room_id'); // IMPORTANT
 
-        return response()->json(
-            $rooms->map(function ($room) use ($bookedRoomIds) {
-                return [
-                    'id' => $room->id,
-                    'room_number' => $room->room_number,
-                    'type' => $room->type,
-                    'booked' => in_array($room->id, $bookedRoomIds),
-                ];
-            })
-        );
-    }
+    return response()->json(
+        $rooms->map(function ($room) use ($bookings) {
+
+            $booking = $bookings->get($room->id);
+
+            return [
+                'id' => $room->id,
+                'room_number' => $room->room_number,
+                'type' => $room->type,
+                'booked' => $booking ? true : false,
+                'guest_name' => $booking ? $booking->guest_name : null,
+            ];
+        })
+    );
+}
+
 
 public function store(Request $request)
 {
