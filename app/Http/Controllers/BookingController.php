@@ -40,7 +40,6 @@ class BookingController extends Controller
 }
 
 
-
 public function roomsByDate($date)
 {
     $date = Carbon::parse($date);
@@ -72,55 +71,53 @@ public function roomsByDate($date)
 
 
 public function store(Request $request)
-{
-    $request->validate([
-        'room_id' => 'required|exists:rooms,id',
-        'check_in' => 'required|date',
-        'guest_name' => 'required|string',
-        'guest_email' => 'nullable|email',
-        'phone' => 'required|string',
-        'notes' => 'nullable|string',
-        'meal_plan' => 'nullable|string',
-        'check_out' => 'required|date|after:check_in',
-        'advance' => 'required|numeric|min:0',
-        'payment_mode' => 'required|string',
-        'receptionist_name' => 'required|string',
-        'payment_person' => 'nullable|string',
-        'check_in_time' => 'nullable',
+    {
+        $request->validate([
+            'room_id' => 'required|exists:rooms,id',
+            'check_in' => 'required|date',
+            'guest_name' => 'required|string',
+            'guest_email' => 'nullable|email',
+            'phone' => 'required|string',
+            'notes' => 'nullable|string',
+            'meal_plan' => 'nullable|string',
+            'check_out' => 'required|date|after:check_in',
+            'advance' => 'required|numeric|min:0',
+            'payment_mode' => 'required|string',
+            'receptionist_name' => 'required|string',
+            'payment_person' => 'nullable|string',
+            'check_in_time' => 'nullable',
+            'send_confirmation_email' => 'nullable|boolean',
+        ]);
+
+        $booking = Booking::create([
+            'room_id' => $request->room_id,
+            'check_in' => $request->check_in,
+            'check_in_time' => $request->check_in_time,
+            'check_out' => $request->check_out, 
+            'guest_name' => $request->guest_name,
+            'email' => $request->guest_email,
+            'phone' => $request->phone,
+            'meal_plan' => $request->meal_plan,
+            'status' => 1,
+            'notes' => $request->notes,
+            'advance' => $request->advance,
+            'payment_mode' => $request->payment_mode,
+            'receptionist_name' => $request->receptionist_name,
+            'payment_person' => $request->payment_person,
+            'total_amount' => $request->total_amount,
+            'booking_number' => 'BK' . strtoupper(uniqid()),
+            'booked_by' => auth()->id(),
+
+        ]);
+
+    
+        if ($request->filled('send_confirmation_email') && $booking->email) {
+            Mail::to($booking->email)->send(new BookingConfirmed($booking));
+        }
 
 
-
-    ]);
-
-      $booking = Booking::create([
-        'room_id' => $request->room_id,
-        'check_in' => $request->check_in,
-        'check_in_time' => $request->check_in_time,
-        'check_out' => $request->check_out, 
-        'guest_name' => $request->guest_name,
-        'email' => $request->guest_email,
-        'phone' => $request->phone,
-        'meal_plan' => $request->meal_plan,
-        'status' => 1,
-        'notes' => $request->notes,
-        'advance' => $request->advance,
-        'payment_mode' => $request->payment_mode,
-        'receptionist_name' => $request->receptionist_name,
-        'payment_person' => $request->payment_person,
-        'total_amount' => $request->total_amount,
-        'booking_number' => 'BK' . strtoupper(uniqid()),
-        'booked_by' => auth()->id(),
-
-    ]);
-
-    // ✅ Send Email (only if email exists)
-    if ($booking->email) {
-        Mail::to($booking->email)->send(new BookingConfirmed($booking));
+        return response()->json(['success' => true]);
     }
-
-
-    return response()->json(['success' => true]);
-}
 
 public function edit(Booking $booking)
 {

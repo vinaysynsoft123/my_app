@@ -153,6 +153,13 @@
 
                 <!-- Footer -->
                 <div class="modal-footer border-0 pt-0">
+                    <div class="form-check me-auto">
+                        <input class="form-check-input" type="checkbox" name="send_confirmation_email" id="send_confirmation_email" value="1">
+
+                        <label class="form-check-label" for="send_confirmation_email">
+                            Send Confirmation email to Guest
+                        </label>
+                    </div>
                     <button type="submit" class="btn btn-primary ml-auto py-2 rounded-3 fw-semibold">
                         Confirm & Save Booking
                     </button>

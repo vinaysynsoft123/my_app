@@ -7,7 +7,8 @@ use App\Models\Setting;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use App\Mail\BookingCancelled;
+use Illuminate\Support\Facades\Mail;
 
 
 class BookingReport extends Controller
@@ -17,13 +18,13 @@ class BookingReport extends Controller
      * Display a listing of the resource.
      */
    public function index(Request $request)
-{
-    $reports = Booking::with('room')
-        ->latest()                    
-        ->paginate(10);           
+    {
+        $reports = Booking::with('room')
+            ->latest()                    
+            ->paginate(10);           
 
-    return view('bookings.report', compact('reports'));
-}
+        return view('bookings.report', compact('reports'));
+    }
 
     /**
      * Display the specified resource.
@@ -60,23 +61,32 @@ class BookingReport extends Controller
         return $pdf->download('booking-'.$booking->id.'.pdf');
     }
 
-    public function cancel(Request $request, Booking $booking)
-    {
-        $request->validate([
-            'cancellation_reason' => 'required|string|max:500',
-            'refund_amount' => 'nullable|numeric|min:0',
-        ]);
 
-        $booking->update([
-            'status' => 2, // Cancelled
-            'cancellation_reason' => $request->cancellation_reason,
-            'refund_amount' => $request->refund_amount ?? 0,
-        ]);
 
-        return redirect()
-            ->route('bookings.show', $booking->id)
-            ->with('success', 'Booking cancelled successfully.');
+public function cancel(Request $request, Booking $booking)
+{
+    $request->validate([
+        'cancellation_reason' => 'required|string|max:500',
+        'refund_amount'       => 'nullable|numeric|min:0',
+        'send_mail'           => 'nullable|boolean',
+    ]);
+
+    $booking->update([
+        'status'              => 2, // Cancelled
+        'cancellation_reason' => $request->cancellation_reason,
+        'refund_amount'       => $request->refund_amount ?? 0,
+    ]);
+
+    // ✅ Send mail only if checkbox checked
+    if ($request->filled('send_mail') && $booking->email) {
+        Mail::to($booking->email)->send(new BookingCancelled($booking));
     }
+
+    return redirect()
+        ->route('bookings.show', $booking->id)
+        ->with('success', 'Booking cancelled successfully.');
+}
+
 
     public function report(Request $request)
     {
