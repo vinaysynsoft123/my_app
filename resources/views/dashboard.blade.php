@@ -15,7 +15,7 @@
 
     <div class="row g-4 mb-4">
         <div class="col-md-3">
-            <div class="card shadow-sm border-0">
+            <div class="card stat-card shadow-sm border-0">
                 <div class="card-body d-flex justify-content-between">
                     <div>
                         <p class="text-muted mb-1">Total Bookings</p>
@@ -30,7 +30,7 @@
         </div>
 
         <div class="col-md-3">
-            <div class="card shadow-sm border-0">
+            <div class="card stat-card shadow-sm border-0">
                 <div class="card-body d-flex justify-content-between">
                     <div>
                         <p class="text-muted mb-1">Available Rooms</p>
@@ -45,7 +45,7 @@
         </div>
 
         <div class="col-md-3">
-            <div class="card shadow-sm border-0">
+            <div class="card stat-card shadow-sm border-0">
                 <div class="card-body d-flex justify-content-between">
                     <div>
                         <p class="text-muted mb-1">Occupied Rooms</p>
@@ -59,7 +59,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card shadow-sm border-0">
+            <div class="card stat-card shadow-sm border-0">
                 <div class="card-body d-flex justify-content-between">
                     <div>
                         <p class="text-muted mb-1">Today Booking</p>
@@ -205,4 +205,5 @@
 
         </div>
     </div>
+   
 @endsection

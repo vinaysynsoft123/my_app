@@ -17,7 +17,37 @@ body {
 .checkin-item:last-child {
     border-bottom: none;
 }
+.stat-card {
+    border-radius: 14px;
+    transition: all 0.2s ease;
+}
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
 
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+.card-header-clean {
+    background: #fff;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.checkin-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.checkin-item:last-child {
+    border-bottom: none;
+}
 .checkin-time {
     font-size: 12px;
     padding: 4px 8px;
@@ -26,75 +56,75 @@ body {
     font-weight: 600;
 }
 
- .receipt-card {
-            max-width: 900px;
-            margin: auto;
-        }
+.receipt-card {
+    max-width: 900px;
+    margin: auto;
+}
 
-        .section-title {
-            font-size: 13px;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-            font-weight: 700;
-        }
+.section-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-weight: 700;
+}
 
-        .receipt-box {
-            background: #f8f9fa;
-            padding: 15px 0;
-            border-radius: 6px;
-        }
+.receipt-box {
+    background: #f8f9fa;
+    padding: 15px 0;
+    border-radius: 6px;
+}
 
-        .label {
-            font-size: 12px;
-            color: #6c757d;
-        }
+.label {
+    font-size: 12px;
+    color: #6c757d;
+}
 
-        .value {
-            font-weight: 600;
-        }
+.value {
+    font-weight: 600;
+}
 
-        .info-row,
-        .amount-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
+.info-row,
+.amount-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
 
-        .amount-row {
-            font-weight: 500;
-        }
+.amount-row {
+    font-weight: 500;
+}
 
-        .amount-row.balance {
-            font-weight: 700;
-            border-top: 1px dashed #ccc;
-            padding-top: 8px;
-            color: #dc3545;
-        }
+.amount-row.balance {
+    font-weight: 700;
+    border-top: 1px dashed #ccc;
+    padding-top: 8px;
+    color: #dc3545;
+}
 
-        .notes-box {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 6px;
-        }
+.notes-box {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 6px;
+}
 
-        @media print {
-            .no-print {
-                display: none !important;
-            }
+@media print {
+    .no-print {
+        display: none !important;
+    }
 
-            body {
-                background: #fff;
-            }
+    body {
+        background: #fff;
+    }
 
-            .receipt-card {
-                border: none;
-                box-shadow: none;
-            }
-        }
+    .receipt-card {
+        border: none;
+        box-shadow: none;
+    }
+}
 /* ===== Header ===== */
 .navbar {
     height: 70px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
     z-index: 1030;
 }
 
@@ -115,15 +145,15 @@ body {
     z-index: 1020;
 }
 
-  .pagination .page-item .page-link {
-        border-radius: 6px;
-        margin: 0 3px;
-    }
+.pagination .page-item .page-link {
+    border-radius: 6px;
+    margin: 0 3px;
+}
 
-    .pagination .page-item.active .page-link {
-        background-color: #0d6efd;
-        border-color: #0d6efd;
-    }
+.pagination .page-item.active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
 
 .sidebar .nav-link {
     color: #adb5bd;
@@ -222,7 +252,7 @@ body {
         display: none;
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.5);
+        background: rgba(0, 0, 0, 0.5);
         z-index: 1010;
     }
 

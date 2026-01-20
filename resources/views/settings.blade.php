@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid py-4">
+    <div class="container">
         <div class="row mb-4">
             <div class="col-12">
                 <h2 class="h4 mb-0">Settings</h2>

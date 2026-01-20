@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid py-4">
-
+    <div class="container-fluid">
         <div class="row mb-4">
             <div class="col-12">
                 <h2 class="h4 mb-0">My Profile</h2>
@@ -14,15 +13,12 @@
                     @csrf
                     @method('PATCH')
 
-                    <div class="row">
-
-                        <!-- Name -->
+                    <div class="row">                       
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-semibold">Full Name</label>
                             <input type="text" name="name" class="form-control" value="{{ auth()->user()->name }}"
                                 required>
                         </div>
-
                         <!-- Email -->
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-semibold">Email Address</label>
