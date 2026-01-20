@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <title>Booking Invoice</title>
-
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
@@ -92,6 +91,20 @@
             font-size: 10px;
             color: #999;
         }
+        .policy-box {
+            margin-top: 50px;
+            padding: 10px;
+            border: 1px dashed #ccc;
+            background: #fafafa;
+            font-size: 11px;
+        }
+
+        .policy-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
     </style>
 </head>
 
@@ -204,12 +217,24 @@
             </tr>
         </table>
     </div>
+<!-- CANCELLATION POLICY -->
+<div class="section">
+    <div class="policy-box">
+        <div class="policy-title">Cancellation Policy</div>
+
+        <ul style="margin:0; padding-left:15px;">
+            <li>Free cancellation up to <strong>24 hours</strong> before check-in.</li>
+            <li>Cancellations within 24 hours of check-in will be charged <strong>1 night stay</strong>.</li>
+            <li>No refund in case of <strong>No-Show</strong>.</li>
+            <li>Refund (if applicable) will be processed within <strong>5–7 working days</strong>.</li>
+        </ul>
+    </div>
+</div>
 
     <!-- FOOTER -->
     <div class="footer">
         Thank you for choosing {{ $setting->name }}.<br>
         This is a system-generated invoice.
     </div>
-
 </body>
 </html>

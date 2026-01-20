@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
+    protected $casts = [
+    'check_in'  => 'datetime',
+    'check_out' => 'datetime',
+];
+
+
     protected $fillable = [
         'room_id',
         'booked_by',
@@ -15,6 +21,7 @@ class Booking extends Model
         'phone',
         'check_in',
         'check_out',
+        'check_in_time',
         'adults',
         'children',
         'meal_plan',

@@ -82,7 +82,14 @@
                             </label>
                             <input type="date" class="form-control bg-light rounded-3" id="checkInDisplay" readonly>
                             <input type="hidden" name="check_in" id="bookingCheckIn">
+                            
                         </div>
+                        <div class="col-md-3">
+                        <label class="form-label">
+                            <i class="bi bi-clock me-1"></i> Check-in Time
+                        </label>
+                        <input type="time" name="check_in_time" class="form-control rounded-3" id="checkInTime">
+                    </div>
 
                         <div class="col-md-3">
                             <label class="form-label">
@@ -112,21 +119,21 @@
                             </select>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="form-label">
                                 <i class="bi bi-person me-1"></i> Receptionist Name
                             </label>
                             <input type="text" name="receptionist_name" class="form-control rounded-3" required>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="form-label">
                                 <i class="bi bi-person me-1"></i> Payment Person
                             </label>
                             <input type="text" name="payment_person" class="form-control rounded-3" required>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="form-label">
                                 <i class="bi bi-cash-coin me-1"></i> Tariff
                             </label>

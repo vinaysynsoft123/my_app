@@ -33,11 +33,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking-calendar', [BookingController::class, 'index'])->name('bookings.calendar');
     Route::get('/booking-events', [BookingController::class, 'events'])->name('bookings.events');    
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
+    Route::get('/bookings/{booking}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
+    Route::put('/bookings/{id}', [BookingController::class, 'update'])->name('bookings.update');
     
     Route::get('/rooms-by-date/{date}', [BookingController::class, 'roomsByDate'])->name('bookings.roomsByDate');
     Route::get('booking-report', [BookingReport::class, 'index'])->name('bookings.report');
     Route::get('booking-reports', [BookingReport::class, 'report'])->name('bookings.reports');
     Route::get('bookings/{booking}', [BookingReport::class, 'show'])->name('bookings.show');
+    Route::delete('bookings/{booking}', [BookingReport::class, 'destroy'])->name('bookings.destroy');  
     
     Route::get('bookings/{booking}/download', [BookingReport::class, 'print'])->name('bookings.download');
 
@@ -50,7 +53,7 @@ Route::middleware('auth')->group(function () {
 
 });
 
-// Optional: redirect / to dashboard when logged in, login when guest
+
 Route::get('/', function () {
     return redirect()->route(auth()->check() ? 'dashboard' : 'login');
 });

@@ -41,12 +41,10 @@ class BookingReport extends Controller
 
         $pdf = Pdf::loadView('bookings.pdf', compact('booking', 'setting'));
 
-        // 👉 agar download button se aaye
         if ($request->has('download')) {
             return $pdf->download('booking-'.$booking->id.'.pdf');
         }
-
-        // 👉 default: new tab me open + print/download icons
+       
         return $pdf->stream('booking-'.$booking->id.'.pdf');
     }
 
@@ -54,7 +52,7 @@ class BookingReport extends Controller
       
     public function download(Booking $booking)
     {
-         $setting = Setting::first();
+        $setting = Setting::first();
         $booking->load('room');
 
         $pdf = Pdf::loadView('bookings.pdf', compact('booking', 'setting'));
@@ -106,4 +104,14 @@ class BookingReport extends Controller
         return view('bookings.report', compact('reports'));
     }
 
+
+    public function destroy(Booking $booking)
+    {
+        $booking->delete();
+
+        return redirect()
+            ->route('bookings.report')
+            ->with('success', 'Booking deleted successfully.');
+    }
+    
 }

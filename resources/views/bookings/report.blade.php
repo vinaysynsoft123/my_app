@@ -83,10 +83,25 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('bookings.show', $booking->id) }}"
-                                        class="btn btn-sm btn-primary px-3">
-                                        View
-                                    </a>
+                                    <div class="d-flex gap-1">
+                                        <a href="{{ route('bookings.show', $booking->id) }}"
+                                            class="btn btn-sm btn-primary px-3">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a href="{{ route('bookings.edit', $booking->id) }}"
+                                            class="btn btn-sm btn-warning px-3">
+                                           <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form action="{{ route('bookings.destroy', $booking->id) }}" method="POST"
+                                            class="d-inline-block"
+                                            onsubmit="return confirm('Are you sure you want to delete this booking?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger px-3">
+                                                <i class="bi bi-trash"></i> 
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -94,6 +109,7 @@
                                 <td colspan="8" class="text-center py-5 text-muted">
                                     <i class="bi bi-calendar-x me-2"></i>
                                     No bookings found
+
                                 </td>
                             </tr>
                         @endforelse

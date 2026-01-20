@@ -71,9 +71,10 @@ class AuthController extends Controller
    public function dashboard(DashboardService $dashboardService)
     {
         $stats   = $dashboardService->stats();
-        $reports = $dashboardService->recentBookings();
-
-        return view('dashboard', compact('stats', 'reports'));
+        $reports = $dashboardService->recentBookings();    
+        $todayCheckIns = $dashboardService->todayCheckIns();
+        $todayCheckOuts = $dashboardService->todayCheckOuts();
+        return view('dashboard', compact('stats', 'reports', 'todayCheckIns', 'todayCheckOuts'));
     }
 
     // Logout

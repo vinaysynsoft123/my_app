@@ -33,8 +33,8 @@
                         </div>
                     </div>
                 </div>
-              
-           <hr>
+
+                <hr>
                 <div class="">
 
                     {{-- Guest & Room --}}
@@ -88,6 +88,11 @@
                                 <div class="fs-4 fw-bold">
                                     {{ \Carbon\Carbon::parse($booking->check_in)->format('d M Y') }}
                                 </div>
+                                <div class="text-muted mb-1">
+                                    Check-in Time: <span class="fw-semibold">
+                                        {{ \Carbon\Carbon::parse($booking->check_in_time)->format('h:i A') }}</span>
+                                </div>
+
                                 <div class="small text-muted">
                                     {{ \Carbon\Carbon::parse($booking->check_in)->format('l') }}
                                 </div>
@@ -106,7 +111,14 @@
                             <div class="col-md-4">
                                 <div class="text-muted small mb-1">Duration</div>
                                 <div class="fs-4 fw-bold">
-                                    {{ \Carbon\Carbon::parse($booking->check_in)->diffInDays($booking->check_out) }} nights
+                                    @php
+                                        $duration = \Carbon\Carbon::parse($booking->check_in)->diffInDays(
+                                            $booking->check_out,
+                                        );
+                                        $duration = $duration == 0 ? 1 : $duration;
+                                    @endphp
+
+                                    {{ $duration }} night{{ $duration > 1 ? 's' : '' }}
                                 </div>
                             </div>
                         </div>
@@ -114,7 +126,6 @@
 
                     <hr>
 
-               
 
                     {{-- PAYMENT SUMMARY --}}
                     <div class="row">
@@ -181,105 +192,105 @@
 
                 </div>
                 <div class="card-footer bg-white no-print text-end mt-2 border-0 px-0">
-                  <div class="btn-group gap-2" role="group">
-                    <a href="{{ route('bookings.download', $booking->id) }}" class="btn btn-dark">
-                        <i class="bi bi-download"></i> Download
-                    </a>
+                    <div class="btn-group gap-2" role="group">
+                        <a href="{{ route('bookings.download', $booking->id) }}" class="btn btn-dark">
+                            <i class="bi bi-download"></i> Download
+                        </a>
 
-                    <a href="{{ route('bookings.download', $booking->id) }}" target="_blank" class="btn btn-primary">
-                        <i class="bi bi-printer"></i> Print
-                    </a>
+                        <a href="{{ route('bookings.download', $booking->id) }}" target="_blank" class="btn btn-primary">
+                            <i class="bi bi-printer"></i> Print
+                        </a>
 
 
-                    @if ($booking->status != 2)
-                        <button class="btn btn-danger"
-                            onclick="openCancelModal('{{ route('bookings.cancel', $booking->id) }}')">
-                            <i class="bi bi-x-circle"></i> Cancel
-                        </button>
-                    @endif
-                </div>
+                        @if ($booking->status != 2)
+                            <button class="btn btn-danger"
+                                onclick="openCancelModal('{{ route('bookings.cancel', $booking->id) }}')">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </button>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-            @include('bookings.booking_cancel')
+    @include('bookings.booking_cancel')
 
-            <script>
-                function openCancelModal(actionUrl) {
-                    const form = document.getElementById('cancelBookingForm');
-                    form.action = actionUrl;
-                    const modal = new bootstrap.Modal(document.getElementById('roomsModal'));
-                    modal.show();
-                }
-            </script>
+    <script>
+        function openCancelModal(actionUrl) {
+            const form = document.getElementById('cancelBookingForm');
+            form.action = actionUrl;
+            const modal = new bootstrap.Modal(document.getElementById('roomsModal'));
+            modal.show();
+        }
+    </script>
 
 
-            {{-- STYLES --}}
-            <style>
-                .receipt-card {
-                    max-width: 900px;
-                    margin: auto;
-                }
+    {{-- STYLES --}}
+    <style>
+        .receipt-card {
+            max-width: 900px;
+            margin: auto;
+        }
 
-                .section-title {
-                    font-size: 13px;
-                    text-transform: uppercase;                  
-                    margin-bottom: 6px;
-                    font-weight: 700;
-                }
+        .section-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
 
-                .receipt-box {
-                    background: #f8f9fa;
-                    padding: 15px 0;
-                    border-radius: 6px;
-                }
+        .receipt-box {
+            background: #f8f9fa;
+            padding: 15px 0;
+            border-radius: 6px;
+        }
 
-                .label {
-                    font-size: 12px;
-                    color: #6c757d;
-                }
+        .label {
+            font-size: 12px;
+            color: #6c757d;
+        }
 
-                .value {
-                    font-weight: 600;
-                }
+        .value {
+            font-weight: 600;
+        }
 
-                .info-row,
-                .amount-row {
-                    display: flex;
-                    justify-content: space-between;
-                    margin-bottom: 8px;
-                }
+        .info-row,
+        .amount-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
 
-                .amount-row {
-                    font-weight: 500;
-                }
+        .amount-row {
+            font-weight: 500;
+        }
 
-                .amount-row.balance {
-                    font-weight: 700;
-                    border-top: 1px dashed #ccc;
-                    padding-top: 8px;
-                    color: #dc3545;
-                }
+        .amount-row.balance {
+            font-weight: 700;
+            border-top: 1px dashed #ccc;
+            padding-top: 8px;
+            color: #dc3545;
+        }
 
-                .notes-box {
-                    background: #f8f9fa;
-                    padding: 12px;
-                    border-radius: 6px;
-                }
+        .notes-box {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+        }
 
-                @media print {
-                    .no-print {
-                        display: none !important;
-                    }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
 
-                    body {
-                        background: #fff;
-                    }
+            body {
+                background: #fff;
+            }
 
-                    .receipt-card {
-                        border: none;
-                        box-shadow: none;
-                    }
-                }
-            </style>
-        @endsection
+            .receipt-card {
+                border: none;
+                box-shadow: none;
+            }
+        }
+    </style>
+@endsection
