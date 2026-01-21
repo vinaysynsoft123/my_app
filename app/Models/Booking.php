@@ -36,6 +36,7 @@ class Booking extends Model
         'payment_mode',
         'receptionist_name',
         'payment_person',
+        'tariff',
 
     ];
 

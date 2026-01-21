@@ -137,7 +137,7 @@
                             <label class="form-label">
                                 <i class="bi bi-cash-coin me-1"></i> Tariff
                             </label>
-                            <input type="number" name="total_amount" class="form-control rounded-3" required>
+                            <input type="number" name="tariff" min="100" class="form-control rounded-3" required>
                         </div>
 
                         <!-- Notes -->
@@ -165,7 +165,6 @@
                     </button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>

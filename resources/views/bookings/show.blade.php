@@ -148,26 +148,65 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <h6 class="section-title mb-3">Payment Summary</h6>
+                     <div class="col-md-6">
+    <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-light d-flex align-items-center">
+            <i class="bi bi-receipt fs-5 text-primary me-2"></i>
+            <h6 class="mb-0 fw-semibold">Payment Summary</h6>
+        </div>
 
-                            <div class="amount-row">
-                                <span>Total Amount</span>
-                                <span>₹ {{ number_format($booking->total_amount, 2) }}</span>
-                            </div>
+        <div class="card-body">
 
-                            <div class="amount-row text-success">
-                                <span>Advance Paid</span>
-                                <span>₹ {{ number_format($booking->advance ?? 0, 2) }}</span>
-                            </div>
+            <!-- Tariff -->
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="text-muted">
+                    Tariff
+                    <small class="d-block">
+                        ₹ {{ number_format($booking->tariff, 2) }} × {{ $duration }} night(s)
+                    </small>
+                </div>
+                <span class="fw-semibold">
+                    ₹ {{ number_format($booking->tariff * $duration, 2) }}
+                </span>
+            </div>
 
-                            <div class="amount-row balance">
-                                <span>Balance Amount</span>
-                                <span>
-                                    ₹ {{ number_format($booking->total_amount - ($booking->advance ?? 0), 2) }}
-                                </span>
-                            </div>
-                        </div>
+            <hr class="my-2">
+
+            <!-- Total Amount -->
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-semibold">Total Amount</span>
+                <span class="fw-bold fs-6 text-dark">
+                    ₹ {{ number_format($booking->total_amount, 2) }}
+                </span>
+            </div>
+
+            <!-- Advance -->
+            <div class="d-flex justify-content-between align-items-center mb-2 text-success">
+                <span>
+                    <i class="bi bi-check-circle me-1"></i>
+                    Advance Paid
+                </span>
+                <span class="fw-semibold">
+                    − ₹ {{ number_format($booking->advance ?? 0, 2) }}
+                </span>
+            </div>
+
+            <hr class="my-3">
+
+            <!-- Balance -->
+            <div class="d-flex justify-content-between align-items-center p-3 rounded bg-warning-subtle">
+                <span class="fw-bold">
+                    Balance Amount
+                </span>
+                <span class="fw-bold fs-5 text-danger">
+                    ₹ {{ number_format($booking->total_amount - ($booking->advance ?? 0), 2) }}
+                </span>
+            </div>
+
+        </div>
+    </div>
+</div>
+
                     </div>
 
                     @if ($booking->notes)

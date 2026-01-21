@@ -9,10 +9,8 @@
                 @method('PUT')
 
                 <input type="hidden" name="room_id" value="{{ $booking->room_id }}">
-                <input type="hidden" name="check_in" value="{{ $booking->check_in }}">
 
                 <div class="row g-3">
-
                     <div class="col-md-6">
                         <label class="form-label">Guest Name</label>
                         <input type="text" name="guest_name" class="form-control"
@@ -81,9 +79,12 @@
 
                     <div class="col-md-3">
                         <label class="form-label">Check-in</label>
-                        <input type="date" id="checkInDate" name="check_in"
-                            class="form-control"min="{{ now()->toDateString() }}"
-                            value="{{ old('check_in', $booking->check_in) }}" required>
+
+
+                        <input type="date" class="form-control" name="check_in" id="checkInDate"
+                            value="{{ old('check_in', $booking->check_in->format('Y-m-d')) }}"
+                            min="{{ min(now()->format('Y-m-d'), $booking->check_in->format('Y-m-d')) }}">
+
                     </div>
 
                     <div class="col-md-3">
@@ -96,9 +97,9 @@
 
                     <div class="col-md-3">
                         <label class="form-label">Check-out</label>
-                        <input type="date" id="checkOutDate" name="check_out" class="form-control"
-                            min="{{ old('check_in', now()->toDateString()) }}"
-                            value="{{ old('check_out', $booking->check_out) }}" required>
+                        <input type="date" name="check_out" class="form-control" id="checkOutDate"
+                            value="{{ old('check_out', $booking->check_out->format('Y-m-d')) }}"
+                            min="{{ old('check_in', $booking->check_in->format('Y-m-d')) }}">
                     </div>
 
 
@@ -133,8 +134,8 @@
 
                     <div class="col-md-3">
                         <label class="form-label">Tariff</label>
-                        <input type="number" name="total_amount" class="form-control"
-                            value="{{ old('total_amount', $booking->total_amount) }}" required>
+                        <input type="number" name="tariff" class="form-control"
+                            value="{{ old('tariff', $booking->tariff) }}" required>
                     </div>
 
                     <div class="col-12">
@@ -156,8 +157,10 @@
 
         checkIn.addEventListener('change', function() {
             if (this.value) {
-                checkOut.value = this.value;
                 checkOut.min = this.value;
+                if (!checkOut.value || checkOut.value < this.value) {
+                    checkOut.value = this.value;
+                }
             }
         });
     </script>
