@@ -55,8 +55,7 @@ class SettingsController extends Controller
         $user = auth()->user();
 
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',          
+            'name' => 'required|string|max:255',         
             'password' => 'nullable|confirmed|min:8',           
         ]);
 

@@ -7,13 +7,23 @@
                 <h2 class="h4 mb-0">My Profile</h2>
             </div>
         </div>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="card shadow-sm border-0">
             <div class="card-body">
-                <form action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.profile.update') }}" method="POST">
                     @csrf
                     @method('PATCH')
 
-                    <div class="row">                       
+                    <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-semibold">Full Name</label>
                             <input type="text" name="name" class="form-control" value="{{ auth()->user()->name }}"
@@ -23,7 +33,7 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-semibold">Email Address</label>
                             <input type="email" name="email" class="form-control" value="{{ auth()->user()->email }}"
-                                readonly disabled required>
+                                readonly required>
                         </div>
 
 

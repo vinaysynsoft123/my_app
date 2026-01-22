@@ -16,45 +16,46 @@ class BookingController extends Controller
       return view('bookings.calendar');
     }
 
-public function events()
+   
+    public function events()
 {
-    $bookings = Booking::with('room')->latest()->get();
+    $bookings = Booking::where('status', '!=', 2)->get();
+
+    $dateCounts = [];
+
+    foreach ($bookings as $booking) {
+
+        $start = \Carbon\Carbon::parse($booking->check_in)->startOfDay();
+        $end   = \Carbon\Carbon::parse($booking->check_out)->startOfDay();
+
+        // SAME DAY check-in & check-out → count 1 day
+        if ($start->equalTo($end)) {
+            $dateCounts[$start->toDateString()] =
+                ($dateCounts[$start->toDateString()] ?? 0) + 1;
+            continue;
+        }
+
+        // MULTI DAY booking
+        while ($start->lt($end)) {
+            $date = $start->toDateString();
+            $dateCounts[$date] = ($dateCounts[$date] ?? 0) + 1;
+            $start->addDay();
+        }
+    }
 
     $events = [];
 
-    foreach ($bookings as $booking) {
-        $events[] = [
-            'id'    => $booking->id,
-            'title' => $booking->room->room_number . ' - ' . $booking->guest_name,
-            'start' => $booking->check_in,
-            'end'   => $booking->check_out,
-            'color' => match ($booking->status) {
-                1 => '#198754',
-                0 => '#ffc107',
-                2 => '#dc3545',
-                default => '#6c757d',
-            },
-            'url' => route('bookings.show', $booking->id),
-        ];
-    }
-  
-    $grouped = $bookings->groupBy(function ($b) {
-        return \Carbon\Carbon::parse($b->check_in)->toDateString();
-    });
-
-    foreach ($grouped as $date => $dayBookings) {
-        $count = $dayBookings->count();
-
+    foreach ($dateCounts as $date => $count) {
         if ($count > 0) {
             $events[] = [
                 'title'  => "Total - {$count}",
                 'start'  => $date,
                 'allDay' => true,
-                'color'  => '#0d6efd', // blue summary
-                'display'=> 'block',
+                'color'  => '#0d6efd',
             ];
         }
     }
+
     return response()->json($events);
 }
 
@@ -68,9 +69,9 @@ public function roomsByDate($date)
     // Get bookings for that date
     $bookings = Booking::where('status', '!=', 2)
         ->whereDate('check_in', '<=', $date)
-        ->whereDate('check_out', '>=', $date)
+        ->whereDate('check_out', '>', $date)
         ->get()
-        ->keyBy('room_id'); // IMPORTANT
+        ->keyBy('room_id');
 
     return response()->json(
         $rooms->map(function ($room) use ($bookings) {

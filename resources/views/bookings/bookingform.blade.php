@@ -42,13 +42,12 @@
                             </label>
                             <input type="text" name="phone" class="form-control rounded-3" required>
                         </div>
-
-                        <!-- Adults -->
+                      
                         <div class="col-md-3">
                             <label class="form-label">
                                 <i class="bi bi-people me-1"></i> Adults
                             </label>
-                            <input type="number" name="adults" class="form-control rounded-3" 
+                            <input type="number" name="adults" class="form-control rounded-3" value="1"
                                 min="1" max="8">
                         </div>
 
@@ -57,7 +56,7 @@
                             <label class="form-label">
                                 <i class="bi bi-people me-1"></i> Children
                             </label>
-                            <input type="number" name="children" class="form-control rounded-3" 
+                            <input type="number" name="children" class="form-control rounded-3" value="0"
                                 min="0" max="4">
                         </div>
 
